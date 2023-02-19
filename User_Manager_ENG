@@ -1,0 +1,63 @@
+#!/bin/bash
+
+#
+# Block menu
+#
+OPTION=$(dialog --title "User_Manager" --menu "Select an action:" 15 60 4 \
+"1" "Add User" \
+"2" "Edit User" \
+"3" "Delete User"  \
+"4" "User Information" 3>&1 1>&2 2>&3)
+#
+# End of block menu
+#
+#
+# Start of tab scripts
+#
+case $OPTION in
+	1)
+		dialog --ok-label "Create" --title "User_Manager" --form "Add User" 15 50 0 \
+		"Login:"  1 1 "$user" 	1 10 20 0 \
+		"Password:" 2 1 "$pass"  	2 10 20 0 \
+		"Group:" 3 1 "$groups" 3 10 20 0 \
+		"UID:"    4 1 "$uid"    4 10 20 0 \
+		"GID:"    5 1 "$gid"    5 10 20 0 \
+		"Directoty: /home/" 6 1 "$home" 6 18 14 0  3>&1 1>&2 2>&3
+		#
+		# useradd $user $pass $group $uid $gid
+		#
+		#dialog --msgbox "User $user created!" \
+		#Данные:
+		#Password: $pass
+		#Group: $groups
+		#UID: $uid
+		#GID: $gid
+		#Directory: $home" 10 100
+		;;
+
+	2)
+		user_input=$(dialog --inputbox "Enter username:" 8 40 3>&1 1>&2 2>&3 3>&- )
+
+		USERMOD=$(dialog --ok-label "Edit" --title "User_Manager" --form "Edit user $user_input" 15 70 0 \
+                "Login:"  1 1 "$user"   1 10 20 0 \
+                "Password:" 2 1 "$pass"   2 10 20 0 \
+                "Group:" 3 1 "$groups" 3 10 20 0 \
+                "UID:"    4 1 "$uid"    4 10 20 0 \
+                "GID:"    5 1 "$gid"    5 10 20 0 \
+                "Directory: /home/" 6 1 "$home"   6 16 14 0  3>&1 1>&2 2>&3)
+                # usermod
+
+		;;
+
+	3)
+		echo "Delete user"
+		;;
+
+	4)
+		dialog --msgbox "Hello, $USER! This page is under construction!" 10 100 
+		;;
+
+	*)
+		echo  "Exit"
+		;;
+esac
